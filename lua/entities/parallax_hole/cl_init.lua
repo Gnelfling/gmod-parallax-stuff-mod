@@ -22,7 +22,7 @@ local function GetParallaxHoleMaterial(rt)
     -- builds that lookup returns an error/null material for a render target.
     -- CreateMaterial caches a real material whose base texture is the RT.
     PARALLAX_MATERIAL = CreateMaterial("parallax_hole_rt_material", "UnlitGeneric", {
-        ["$basetexture"] = rt:GetName(),
+        ["$basetexture"] = "!" .. rt:GetName(),
         ["$vertexcolor"] = 1,
         ["$vertexalpha"] = 1,
         ["$translucent"] = 0,

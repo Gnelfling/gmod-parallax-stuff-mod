@@ -3,8 +3,8 @@ TOOL.Name = "Parallax Hole"
 TOOL.Command = nil
 TOOL.ConfigName = ""
 
--- These keys are automatically exposed as parallax_hole_depth,
--- parallax_hole_width, and parallax_hole_height by the toolgun system.
+-- These keys are automatically exposed as parallax_hole_tool_depth,
+-- parallax_hole_tool_width, and parallax_hole_tool_height by the toolgun system.
 TOOL.ClientConVar = {
     ["depth"] = "512",
     ["width"] = "64",
@@ -18,9 +18,9 @@ if CLIENT then
 
     function TOOL.BuildCPanel(panel)
         panel:Help("Parallax Hole")
-        panel:NumSlider("Depth", "parallax_hole_depth", 64, 2000, 0)
-        panel:NumSlider("Width", "parallax_hole_width", 8, 512, 0)
-        panel:NumSlider("Height", "parallax_hole_height", 8, 512, 0)
+        panel:NumSlider("Depth", "parallax_hole_tool_depth", 64, 2000, 0)
+        panel:NumSlider("Width", "parallax_hole_tool_width", 8, 512, 0)
+        panel:NumSlider("Height", "parallax_hole_tool_height", 8, 512, 0)
     end
 end
 
