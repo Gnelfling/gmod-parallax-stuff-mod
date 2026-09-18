@@ -13,9 +13,27 @@ local function GetParallaxHoleRT()
 end
 
 local function GetParallaxHoleMaterial(rt)
-    if not PARALLAX_MATERIAL then
-        PARALLAX_MATERIAL = Material("!" .. rt:GetName())
+    if not rt then return nil end
+    if PARALLAX_MATERIAL and not PARALLAX_MATERIAL:IsError() then
+        return PARALLAX_MATERIAL
     end
+
+    -- Do not call Material("!" .. rt:GetName()) every frame. On some GMod
+    -- builds that lookup returns an error/null material for a render target.
+    -- CreateMaterial caches a real material whose base texture is the RT.
+    PARALLAX_MATERIAL = CreateMaterial("parallax_hole_rt_material", "UnlitGeneric", {
+        ["$basetexture"] = rt:GetName(),
+        ["$vertexcolor"] = 1,
+        ["$vertexalpha"] = 1,
+        ["$translucent"] = 0,
+        ["$ignorez"] = 1
+    })
+
+    if not PARALLAX_MATERIAL or PARALLAX_MATERIAL:IsError() then
+        PARALLAX_MATERIAL = nil
+        return nil
+    end
+
     return PARALLAX_MATERIAL
 end
 
@@ -79,7 +97,11 @@ function ENT:Draw()
 
     DrawFakeShaft(self)
 
-    render.SetMaterial(GetParallaxHoleMaterial(rt))
+    local holeMaterial = GetParallaxHoleMaterial(rt)
+    -- Never bind a failed/error material; this prevents CMatRenderContext spam.
+    if not holeMaterial or holeMaterial:IsError() then return end
+
+    render.SetMaterial(holeMaterial)
     render.DrawQuadEasy(
         self:GetPos() + self:GetUp() * 0.5,
         self:GetUp(),

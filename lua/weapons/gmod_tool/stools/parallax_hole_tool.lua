@@ -3,10 +3,12 @@ TOOL.Name = "Parallax Hole"
 TOOL.Command = nil
 TOOL.ConfigName = ""
 
+-- These keys are automatically exposed as parallax_hole_depth,
+-- parallax_hole_width, and parallax_hole_height by the toolgun system.
 TOOL.ClientConVar = {
-    depth = "512",
-    width = "64",
-    height = "64"
+    ["depth"] = "512",
+    ["width"] = "64",
+    ["height"] = "64"
 }
 
 if CLIENT then
